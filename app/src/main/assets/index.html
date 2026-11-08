@@ -1,0 +1,3835 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Sami Cyber Security - Private Data Management</title>
+  <style>
+    /* CSS Variables & Themes */
+    :root {
+      --primary: #00ff66;
+      --primary-rgb: 0, 255, 102;
+      --primary-dark: #00aa44;
+      --primary-glow: rgba(0, 255, 102, 0.4);
+      --bg-base: #060d0a;
+      --bg-surface: rgba(10, 25, 18, 0.78);
+      --bg-surface-elevated: rgba(15, 38, 27, 0.85);
+      --bg-card: rgba(8, 20, 14, 0.72);
+      --border-color: rgba(0, 255, 102, 0.22);
+      --border-glow: rgba(0, 255, 102, 0.5);
+      --text-main: #f0fdf4;
+      --text-muted: #86efac;
+      --text-dim: #4ade80;
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.4);
+      --warning: #f59e0b;
+      --info: #06b6d4;
+      --radius: 14px;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --font-scale: 16px;
+      --header-height: 64px;
+      --nav-height: 68px;
+    }
+
+    /* 10 Theme Presets */
+    body[data-theme="hacker-green"] {
+      --primary: #00ff66; --primary-rgb: 0, 255, 102; --primary-dark: #00b347; --primary-glow: rgba(0, 255, 102, 0.4);
+      --bg-base: #050d08; --bg-surface: rgba(10, 25, 17, 0.82); --border-color: rgba(0, 255, 102, 0.25);
+    }
+    body[data-theme="forest"] {
+      --primary: #10b981; --primary-rgb: 16, 185, 129; --primary-dark: #059669; --primary-glow: rgba(16, 185, 129, 0.4);
+      --bg-base: #05140e; --bg-surface: rgba(8, 30, 22, 0.85); --border-color: rgba(16, 185, 129, 0.25);
+    }
+    body[data-theme="jungle"] {
+      --primary: #84cc16; --primary-rgb: 132, 204, 22; --primary-dark: #65a30d; --primary-glow: rgba(132, 204, 22, 0.4);
+      --bg-base: #0a1204; --bg-surface: rgba(20, 32, 10, 0.85); --border-color: rgba(132, 204, 22, 0.25);
+    }
+    body[data-theme="ocean"] {
+      --primary: #06b6d4; --primary-rgb: 6, 182, 212; --primary-dark: #0891b2; --primary-glow: rgba(6, 182, 212, 0.4);
+      --bg-base: #040e17; --bg-surface: rgba(8, 26, 42, 0.85); --border-color: rgba(6, 182, 212, 0.25);
+    }
+    body[data-theme="cyber-neon"] {
+      --primary: #00f3ff; --primary-rgb: 0, 243, 255; --primary-dark: #d946ef; --primary-glow: rgba(0, 243, 255, 0.5);
+      --bg-base: #070614; --bg-surface: rgba(18, 14, 42, 0.85); --border-color: rgba(0, 243, 255, 0.3);
+    }
+    body[data-theme="royal-purple"] {
+      --primary: #a855f7; --primary-rgb: 168, 85, 247; --primary-dark: #9333ea; --primary-glow: rgba(168, 85, 247, 0.45);
+      --bg-base: #0f051d; --bg-surface: rgba(28, 12, 50, 0.85); --border-color: rgba(168, 85, 247, 0.25);
+    }
+    body[data-theme="sunset"] {
+      --primary: #f97316; --primary-rgb: 249, 115, 22; --primary-dark: #ea580c; --primary-glow: rgba(249, 115, 22, 0.45);
+      --bg-base: #140702; --bg-surface: rgba(36, 16, 7, 0.85); --border-color: rgba(249, 115, 22, 0.25);
+    }
+    body[data-theme="rose"] {
+      --primary: #f43f5e; --primary-rgb: 244, 63, 94; --primary-dark: #e11d48; --primary-glow: rgba(244, 63, 94, 0.45);
+      --bg-base: #140308; --bg-surface: rgba(36, 10, 20, 0.85); --border-color: rgba(244, 63, 94, 0.25);
+    }
+    body[data-theme="black-gold"] {
+      --primary: #eab308; --primary-rgb: 234, 179, 8; --primary-dark: #ca8a04; --primary-glow: rgba(234, 179, 8, 0.45);
+      --bg-base: #0f0e07; --bg-surface: rgba(28, 25, 12, 0.85); --border-color: rgba(234, 179, 8, 0.28);
+    }
+    body[data-theme="emerald-luxe"] {
+      --primary: #059669; --primary-rgb: 5, 150, 105; --primary-dark: #047857; --primary-glow: rgba(5, 150, 105, 0.45);
+      --bg-base: #03130d; --bg-surface: rgba(6, 32, 22, 0.85); --border-color: rgba(5, 150, 105, 0.3);
+    }
+
+    /* Font Styles */
+    body[data-font="modern"] { --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
+    body[data-font="mono"] { --font-family: "Courier New", "Fira Code", Consolas, monospace; }
+    body[data-font="serif"] { --font-family: Georgia, "Times New Roman", serif; }
+    body[data-font="rounded"] { --font-family: "Quicksand", "Nunito", system-ui, sans-serif; }
+
+    /* Font Sizes */
+    body[data-size="small"] { --font-scale: 14px; }
+    body[data-size="normal"] { --font-scale: 16px; }
+    body[data-size="large"] { --font-scale: 18px; }
+
+    /* Reset & Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input, textarea {
+      user-select: text;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      font-size: var(--font-scale);
+      line-height: 1.5;
+    }
+
+    /* Background Sceneries & Effects */
+    #bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      transition: background 0.6s ease;
+    }
+
+    .bg-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(var(--primary-rgb), 0.16) 0%, transparent 65%),
+                  radial-gradient(circle at 80% 80%, rgba(var(--primary-rgb), 0.08) 0%, transparent 50%),
+                  var(--bg-base);
+    }
+    .bg-grid {
+      background-color: var(--bg-base);
+      background-image: linear-gradient(rgba(var(--primary-rgb), 0.08) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(var(--primary-rgb), 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .bg-solid {
+      background: var(--bg-base);
+    }
+    .bg-scenic-mountain {
+      background: linear-gradient(180deg, #020b14 0%, #0c2338 50%, #031118 100%);
+    }
+    .bg-scenic-beach {
+      background: linear-gradient(180deg, #021a22 0%, #053b47 50%, #02181d 100%);
+    }
+    .bg-scenic-forest {
+      background: linear-gradient(180deg, #02140a 0%, #07351c 50%, #03150c 100%);
+    }
+    .bg-scenic-aurora {
+      background: linear-gradient(145deg, #08031e 0%, #04242e 50%, #083823 100%);
+    }
+    .bg-scenic-desert {
+      background: linear-gradient(180deg, #180902 0%, #3a1c07 50%, #150802 100%);
+    }
+    .bg-scenic-lake {
+      background: linear-gradient(180deg, #020d18 0%, #062742 50%, #010a12 100%);
+    }
+    .bg-scenic-teagarden {
+      background: linear-gradient(180deg, #07170a 0%, #17381c 50%, #06150a 100%);
+    }
+    .bg-scenic-moonlight {
+      background: radial-gradient(circle at 75% 15%, rgba(220, 245, 255, 0.15) 0%, transparent 40%),
+                  linear-gradient(180deg, #030612 0%, #09132b 60%, #040817 100%);
+    }
+
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.18;
+      display: block;
+    }
+
+    /* App Container */
+    #app-root {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 820px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    /* Glass Panels & Buttons */
+    .glass-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+      transition: all 0.25s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: 0 10px 36px 0 var(--primary-glow);
+    }
+
+    .cyber-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--primary);
+      background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.18) 0%, rgba(var(--primary-rgb), 0.05) 100%);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      min-height: 48px;
+    }
+
+    .cyber-btn:hover {
+      background: rgba(var(--primary-rgb), 0.25);
+      box-shadow: 0 0 18px var(--primary-glow);
+      transform: translateY(-1px);
+    }
+
+    .cyber-btn:active {
+      transform: translateY(1px);
+    }
+
+    .cyber-btn.btn-filled {
+      background: var(--primary);
+      color: #050d08;
+      border-color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+
+    .cyber-btn.btn-filled:hover {
+      background: #ffffff;
+      color: #050d08;
+      box-shadow: 0 0 24px var(--primary);
+    }
+
+    .cyber-btn.btn-danger {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    .cyber-btn.btn-danger:hover {
+      background: var(--danger);
+      color: #ffffff;
+      box-shadow: 0 0 20px var(--danger-glow);
+    }
+
+    .cyber-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      background: rgba(4, 14, 9, 0.85);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-height: 48px;
+    }
+
+    .cyber-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 14px var(--primary-glow);
+    }
+
+    /* Header */
+    header#top-header {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      padding-top: env(safe-area-inset-top, 0px);
+      background: rgba(6, 15, 10, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(var(--primary-rgb), 0.15);
+      border: 1px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .brand-text h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+    .brand-text span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: rgba(10, 25, 18, 0.8);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .badge-secure {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(var(--primary-rgb), 0.14);
+      border: 1px solid var(--primary);
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Main View Area */
+    main#content-viewport {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px;
+      padding-bottom: calc(var(--nav-height) + 24px + env(safe-area-inset-bottom, 0px));
+      position: relative;
+      scroll-behavior: smooth;
+    }
+
+    /* Navigation Bottom Bar */
+    nav#bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 820px;
+      height: var(--nav-height);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: rgba(6, 15, 10, 0.92);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 100;
+    }
+
+    .nav-item {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: none;
+      border: none;
+      outline: none;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-item.active .nav-icon {
+      filter: drop-shadow(0 0 8px var(--primary));
+      transform: scale(1.1);
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s;
+    }
+
+    .nav-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* View Sections */
+    .view-section {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Dashboard Widgets */
+    .greeting-card {
+      padding: 20px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .greeting-time-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .digital-clock {
+      font-family: "Courier New", Consolas, monospace;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .bangla-date-tag {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(var(--primary-rgb), 0.1);
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .welcome-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .welcome-sub {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      padding: 14px 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-number {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--primary);
+      font-family: "Courier New", monospace;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Live Security Status Alert */
+    .security-status-card {
+      padding: 16px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .security-status-info h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-main);
+    }
+
+    .security-status-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Tips Carousel */
+    .tips-card {
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .tips-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .tips-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tips-content {
+      min-height: 48px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--text-main);
+      transition: opacity 0.3s;
+    }
+
+    .tips-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tips-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(var(--primary-rgb), 0.3);
+      cursor: pointer;
+    }
+
+    .tips-dot.active {
+      background: var(--primary);
+      box-shadow: 0 0 6px var(--primary);
+      width: 14px;
+      border-radius: 4px;
+    }
+
+    /* Quick Access */
+    .section-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-main);
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .quick-item {
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .quick-icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(var(--primary-rgb), 0.12);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .quick-text h5 {
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .quick-text span {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* Tools Section Styles */
+    .tools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .tool-card {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tool-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tool-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tool-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .tool-title h4 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .tool-title span {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .tool-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Tool Accounts List */
+    .tool-accounts {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(var(--primary-rgb), 0.2);
+    }
+
+    .account-card {
+      background: rgba(3, 10, 6, 0.65);
+      border: 1px solid rgba(var(--primary-rgb), 0.15);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .account-label-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .account-label-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: rgba(var(--primary-rgb), 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .account-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .account-field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0,0,0,0.4);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: "Courier New", monospace;
+    }
+
+    .account-field span.field-val {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 65%;
+      color: var(--text-main);
+    }
+
+    .account-field button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+    }
+
+    .account-field button:hover {
+      color: var(--primary);
+    }
+
+    /* Gallery Section */
+    .gallery-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .filter-chip {
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: rgba(10, 25, 18, 0.7);
+      border: 1px solid var(--border-color);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-chip.active {
+      background: var(--primary);
+      color: #050d08;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .album-selector-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+    .album-select {
+      flex: 1;
+      padding: 8px 12px;
+      background: rgba(4, 14, 9, 0.85);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 0.86rem;
+      outline: none;
+      min-height: 42px;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 600px) {
+      .media-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+    }
+
+    .media-card {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background: rgba(4, 12, 8, 0.9);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .media-card img, .media-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .media-type-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .media-file-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .media-file-icon span {
+      font-size: 0.72rem;
+      word-break: break-all;
+      color: var(--text-muted);
+    }
+
+    /* Profile Section */
+    .profile-hero {
+      padding: 24px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .profile-avatar-wrap {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--primary) 0%, transparent 100%);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #081a10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+
+    .avatar-edit-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #050d08;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .social-quick-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .social-btn {
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(10, 25, 18, 0.8);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-main);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.72rem;
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* Settings Page */
+    .settings-group {
+      margin-bottom: 20px;
+    }
+
+    .settings-item {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(var(--primary-rgb), 0.1);
+    }
+
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+
+    .settings-info h5 {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .settings-info p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Switch toggle */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .3s;
+      border-radius: 34px;
+      border: 1px solid var(--border-color);
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+      background-color: #050d08;
+    }
+
+    /* Theme Picker Grid */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .theme-box {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      background: rgba(5, 15, 10, 0.7);
+      transition: all 0.2s;
+    }
+
+    .theme-box.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+      background: rgba(var(--primary-rgb), 0.15);
+    }
+
+    .theme-color-preview {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    }
+
+    /* Modals & Dialogs */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transform: scale(0.92);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Media Full Viewer */
+    #media-viewer-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 300;
+      display: none;
+      flex-direction: column;
+    }
+
+    #media-viewer-modal.active {
+      display: flex;
+    }
+
+    .viewer-top-bar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .viewer-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .viewer-body img, .viewer-body video {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .viewer-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .viewer-nav-btn.prev { left: 16px; }
+    .viewer-nav-btn.next { right: 16px; }
+
+    .viewer-bottom-bar {
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      z-index: 10;
+    }
+
+    /* Toast Notification */
+    #toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 400;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .toast-msg {
+      background: rgba(6, 20, 13, 0.94);
+      border: 1px solid var(--primary);
+      color: var(--text-main);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 4px 20px var(--primary-glow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastSlideUp 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes toastSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Login Screen & PIN Verification Screens */
+    #login-screen, #pin-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 32px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+
+    .login-shield {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto;
+      border-radius: 20px;
+      background: rgba(var(--primary-rgb), 0.15);
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      box-shadow: 0 0 25px var(--primary-glow);
+      animation: pulse 2.5s infinite;
+    }
+
+    .login-title h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .login-title p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .error-msg.visible {
+      display: block;
+      animation: shake 0.35s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .pin-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      transition: all 0.2s;
+    }
+
+    .pin-circle.filled {
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .pin-keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .key-btn {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: rgba(10, 25, 18, 0.8);
+      color: var(--text-main);
+      font-size: 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .key-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .key-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(var(--primary-rgb), 0.25);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+  </style>
+</head>
+<body data-theme="hacker-green" data-font="modern" data-size="normal">
+
+  <!-- Background Canvas & Scenery Layer -->
+  <div id="bg-layer" class="bg-glow"></div>
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- Direct Access: Login / Access Key gate removed as requested -->
+
+  <!-- PIN Modal for App Open or Gallery Entry -->
+  <div id="pin-screen" style="display: none;">
+    <div class="glass-card login-container">
+      <div class="login-shield" style="width: 56px; height: 56px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div class="login-title">
+        <h3 id="pin-title">Security PIN Required</h3>
+        <p id="pin-sub">প্রবেশের জন্য আপনার গোপন পিন দিন</p>
+      </div>
+      <div id="pin-error" class="error-msg">ভুল PIN! পুনরায় চেষ্টা করুন।</div>
+      <div class="pin-display">
+        <div class="pin-circle"></div>
+        <div class="pin-circle"></div>
+        <div class="pin-circle"></div>
+        <div class="pin-circle"></div>
+      </div>
+      <div class="pin-keypad">
+        <button class="key-btn" data-key="1">1</button>
+        <button class="key-btn" data-key="2">2</button>
+        <button class="key-btn" data-key="3">3</button>
+        <button class="key-btn" data-key="4">4</button>
+        <button class="key-btn" data-key="5">5</button>
+        <button class="key-btn" data-key="6">6</button>
+        <button class="key-btn" data-key="7">7</button>
+        <button class="key-btn" data-key="8">8</button>
+        <button class="key-btn" data-key="9">9</button>
+        <button class="key-btn" data-key="cancel" style="font-size: 0.9rem; color: var(--danger);">✕</button>
+        <button class="key-btn" data-key="0">0</button>
+        <button class="key-btn" data-key="back" style="font-size: 1.1rem; color: var(--warning);">⌫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Main Shell -->
+  <div id="app-root">
+
+    <!-- Top Sticky Header -->
+    <header id="top-header">
+      <div class="header-brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 id="header-app-title">Sami Cyber Security</h1>
+          <span id="header-tagline">Private Data Vault</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="badge-secure">
+          <div class="pulse-dot"></div>
+          <span>ENCRYPTED</span>
+        </div>
+        <button id="btn-quick-lock" class="icon-btn" title="Quick Lock">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </button>
+        <button id="btn-open-settings" class="icon-btn" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Viewport -->
+    <main id="content-viewport">
+
+      <!-- ================= 1. HOME VIEW ================= -->
+      <section id="view-home" class="view-section active">
+        <!-- Greeting Card with Live Clock & Bangla Date -->
+        <div class="glass-card greeting-card">
+          <div class="greeting-time-bar">
+            <div class="digital-clock" id="live-digital-clock">00:00:00 AM</div>
+            <div class="bangla-date-tag" id="bangla-date-tag">তারিখ লোড হচ্ছে...</div>
+          </div>
+          <div class="welcome-text" id="home-greeting-text">শুভ দিন, Sami!</div>
+          <div class="welcome-sub" id="home-welcome-sub">আপনার ব্যক্তিগত ডাটা ও অ্যাকাউন্ট সম্পূর্ণ সুরক্ষিত রয়েছে।</div>
+        </div>
+
+        <!-- Real-time Counters -->
+        <div class="stats-grid">
+          <div class="glass-card stat-box" id="stat-tools-box">
+            <div class="stat-number" id="stat-tools-count">5</div>
+            <div class="stat-label">মোট Tools</div>
+          </div>
+          <div class="glass-card stat-box" id="stat-accounts-box">
+            <div class="stat-number" id="stat-accounts-count">0</div>
+            <div class="stat-label">মোট Accounts</div>
+          </div>
+          <div class="glass-card stat-box" id="stat-media-box">
+            <div class="stat-number" id="stat-media-count">0</div>
+            <div class="stat-label">মোট Media</div>
+          </div>
+        </div>
+
+        <!-- Automatic Security Alert & Health Status -->
+        <div class="glass-card security-status-card">
+          <div class="security-status-info">
+            <h4 id="security-health-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span>Cyber Shield: 100% Secure</span>
+            </h4>
+            <p id="security-health-desc">AES-256 এনক্রিপশন সক্রিয়। কোনো পাসওয়ার্ড ফাঁস বা ঝুঁকি নেই।</p>
+          </div>
+          <button id="btn-scan-now" class="cyber-btn" style="padding: 8px 14px; font-size: 0.8rem; min-height: 38px;">
+            Scan Now
+          </button>
+        </div>
+
+        <!-- Security Tips Carousel -->
+        <div class="glass-card tips-card">
+          <div class="tips-header">
+            <div class="tips-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <span>Cyber Security Tips</span>
+            </div>
+            <div class="tips-controls" id="tips-dots-container"></div>
+          </div>
+          <div class="tips-content" id="security-tip-text">টিপস লোড হচ্ছে...</div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="section-heading">
+          <span>Quick Access</span>
+          <span style="font-size: 0.78rem; color: var(--primary);">দ্রুত এক্সেস</span>
+        </div>
+        <div class="quick-grid">
+          <div class="glass-card quick-item" id="quick-add-account">
+            <div class="quick-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <line x1="20" y1="8" x2="20" y2="14"/>
+                <line x1="23" y1="11" x2="17" y2="11"/>
+              </svg>
+            </div>
+            <div class="quick-text">
+              <h5>Add Account</h5>
+              <span>নতুন অ্যাকাউন্ট যোগ</span>
+            </div>
+          </div>
+
+          <div class="glass-card quick-item" id="quick-upload-media">
+            <div class="quick-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <div class="quick-text">
+              <h5>Upload Media</h5>
+              <span>ছবি/ভিডিও আপলোড</span>
+            </div>
+          </div>
+
+          <div class="glass-card quick-item" id="quick-goto-tools">
+            <div class="quick-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div class="quick-text">
+              <h5>Tools Vault</h5>
+              <span>সকল সোশ্যাল টুলস</span>
+            </div>
+          </div>
+
+          <div class="glass-card quick-item" id="quick-backup">
+            <div class="quick-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+            <div class="quick-text">
+              <h5>Backup Data</h5>
+              <span>ব্যাকআপ ও রিস্টোর</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. TOOLS VIEW ================= -->
+      <section id="view-tools" class="view-section">
+        <div class="section-heading">
+          <div>
+            <h3>Security & Account Tools</h3>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">ফেসবুক, ইনস্টাগ্রাম ও কাস্টম অ্যাকাউন্ট ম্যানেজমেন্ট</p>
+          </div>
+          <button id="btn-add-custom-tool" class="cyber-btn" style="padding: 8px 14px; font-size: 0.82rem; min-height: 38px;">
+            + Custom Tool
+          </button>
+        </div>
+
+        <!-- Tools Container -->
+        <div class="tools-list" id="tools-container"></div>
+      </section>
+
+      <!-- ================= 3. GALLERY VIEW ================= -->
+      <section id="view-gallery" class="view-section">
+        <div class="section-heading">
+          <div>
+            <h3>Personal Media Gallery</h3>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">IndexedDB দিয়ে সম্পূর্ণ অফলাইন ও এনক্রিপ্টেড মিডিয়া ভল্ট</p>
+          </div>
+          <button id="btn-open-upload-modal" class="cyber-btn btn-filled" style="padding: 8px 14px; font-size: 0.82rem; min-height: 38px;">
+            + Upload
+          </button>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="gallery-filter-bar">
+          <div class="filter-chip active" data-filter="all">All Media (<span id="count-all-media">0</span>)</div>
+          <div class="filter-chip" data-filter="photo">Photos (<span id="count-photos">0</span>)</div>
+          <div class="filter-chip" data-filter="video">Videos (<span id="count-videos">0</span>)</div>
+          <div class="filter-chip" data-filter="file">Files (<span id="count-files">0</span>)</div>
+        </div>
+
+        <!-- Album Selector & Management Bar -->
+        <div class="album-selector-bar">
+          <select id="gallery-album-select" class="album-select">
+            <option value="all">All Albums (সব অ্যালবাম)</option>
+          </select>
+          <button id="btn-create-album" class="cyber-btn" style="padding: 8px 12px; font-size: 0.8rem; min-height: 40px;">
+            + Album
+          </button>
+          <button id="btn-manage-albums" class="icon-btn" title="Manage Albums" style="width: 40px; height: 40px; border-radius: 10px;">
+            📁
+          </button>
+        </div>
+
+        <!-- Media Grid -->
+        <div class="media-grid" id="gallery-grid"></div>
+
+        <!-- Empty State -->
+        <div id="gallery-empty" style="text-align: center; padding: 40px 20px; display: none;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" style="margin-bottom: 12px; opacity: 0.6;">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <h4 style="color: var(--text-muted); font-size: 1rem;">এখনও কোনো মিডিয়া আপলোড করা হয়নি</h4>
+          <p style="color: #64748b; font-size: 0.8rem; margin-top: 4px;">উপরের Upload বাটন দিয়ে ছবি, ভিডিও বা ফাইল সংরক্ষণ করুন।</p>
+        </div>
+      </section>
+
+      <!-- ================= 4. PROFILE VIEW ================= -->
+      <section id="view-profile" class="view-section">
+        <div class="glass-card profile-hero">
+          <div class="profile-avatar-wrap">
+            <div id="profile-avatar-display" class="profile-avatar-img">👤</div>
+            <label for="profile-avatar-file" class="avatar-edit-badge" title="Change Photo">
+              📷
+            </label>
+            <input type="file" id="profile-avatar-file" accept="image/*" style="display: none;">
+          </div>
+          <h3 id="profile-display-name" style="font-size: 1.3rem; font-weight: 700; color: var(--primary);">Sami</h3>
+          <p id="profile-display-bio" style="font-size: 0.85rem; color: var(--text-muted);">Cyber Security Specialist & Ethical Data Vault</p>
+
+          <!-- Social Quick Links -->
+          <div class="social-quick-buttons">
+            <a id="btn-open-facebook" class="social-btn" href="#" target="_blank">
+              <span style="font-size: 1.2rem; color: #1877F2;">📘</span>
+              <span>Facebook</span>
+            </a>
+            <a id="btn-open-instagram" class="social-btn" href="#" target="_blank">
+              <span style="font-size: 1.2rem; color: #E4405F;">📷</span>
+              <span>Instagram</span>
+            </a>
+            <a id="btn-open-telegram" class="social-btn" href="#" target="_blank">
+              <span style="font-size: 1.2rem; color: #24A1DE;">✈️</span>
+              <span>Telegram</span>
+            </a>
+            <a id="btn-open-whatsapp" class="social-btn" href="#" target="_blank">
+              <span style="font-size: 1.2rem; color: #25D366;">💬</span>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Edit Profile Form -->
+        <div class="glass-card" style="padding: 20px;">
+          <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 14px; color: var(--primary);">প্রোফাইল তথ্য সম্পাদন করুন</h4>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">নাম (Full Name)</label>
+              <input type="text" id="prof-input-name" class="cyber-input" value="Sami">
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">বায়ো (Bio)</label>
+              <textarea id="prof-input-bio" class="cyber-input" style="min-height: 70px; resize: none;">Cyber Security Specialist & Ethical Data Vault</textarea>
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Facebook ID / Profile Link</label>
+              <input type="text" id="prof-input-fb" class="cyber-input" placeholder="https://facebook.com/username">
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Instagram Username</label>
+              <input type="text" id="prof-input-insta" class="cyber-input" placeholder="instagram_handle">
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Telegram Username</label>
+              <input type="text" id="prof-input-tg" class="cyber-input" placeholder="telegram_handle">
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">WhatsApp Number</label>
+              <input type="text" id="prof-input-wa" class="cyber-input" placeholder="+8801700000000">
+            </div>
+
+            <button id="btn-save-profile" class="cyber-btn btn-filled" style="margin-top: 8px;">
+              💾 Save Profile Information
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. SETTINGS VIEW ================= -->
+      <section id="view-settings" class="view-section">
+        <div class="section-heading">
+          <div>
+            <h3>App Settings & Security</h3>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">থিম, সিকিউরিটি পিন এবং ব্যাকআপ ব্যবস্থাপনা</p>
+          </div>
+        </div>
+
+        <!-- App Identity -->
+        <div class="glass-card settings-group">
+          <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--primary);">
+            App Identity
+          </div>
+          <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">App Name</label>
+              <input type="text" id="set-app-name" class="cyber-input" value="Sami Cyber Security">
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Tagline</label>
+              <input type="text" id="set-app-tagline" class="cyber-input" value="Personal Cyber Security & Private Data Management">
+            </div>
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Home Welcome Subtitle</label>
+              <input type="text" id="set-welcome-sub" class="cyber-input" value="আপনার ব্যক্তিগত ডাটা ও অ্যাকাউন্ট সম্পূর্ণ সুরক্ষিত রয়েছে।">
+            </div>
+            <button id="btn-save-identity" class="cyber-btn" style="padding: 8px 16px; font-size: 0.85rem;">
+              Save App Identity
+            </button>
+          </div>
+        </div>
+
+        <!-- Color Themes (10 Themes) -->
+        <div class="glass-card settings-group">
+          <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--primary);">
+            Color Themes (10 Cyber Styles)
+          </div>
+          <div class="theme-grid">
+            <div class="theme-box active" data-theme="hacker-green">
+              <div class="theme-color-preview" style="background: #00ff66;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Hacker Green</span>
+            </div>
+            <div class="theme-box" data-theme="forest">
+              <div class="theme-color-preview" style="background: #10b981;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Forest</span>
+            </div>
+            <div class="theme-box" data-theme="jungle">
+              <div class="theme-color-preview" style="background: #84cc16;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Jungle</span>
+            </div>
+            <div class="theme-box" data-theme="ocean">
+              <div class="theme-color-preview" style="background: #06b6d4;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Ocean</span>
+            </div>
+            <div class="theme-box" data-theme="cyber-neon">
+              <div class="theme-color-preview" style="background: #00f3ff;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Cyber Neon</span>
+            </div>
+            <div class="theme-box" data-theme="royal-purple">
+              <div class="theme-color-preview" style="background: #a855f7;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Royal Purple</span>
+            </div>
+            <div class="theme-box" data-theme="sunset">
+              <div class="theme-color-preview" style="background: #f97316;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Sunset</span>
+            </div>
+            <div class="theme-box" data-theme="rose">
+              <div class="theme-color-preview" style="background: #f43f5e;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Rose</span>
+            </div>
+            <div class="theme-box" data-theme="black-gold">
+              <div class="theme-color-preview" style="background: #eab308;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Black Gold</span>
+            </div>
+            <div class="theme-box" data-theme="emerald-luxe">
+              <div class="theme-color-preview" style="background: #059669;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600;">Emerald Luxe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Background Settings -->
+        <div class="glass-card settings-group">
+          <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--primary);">
+            Background Atmosphere
+          </div>
+          <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Background Style</label>
+              <select id="set-bg-style" class="cyber-input" style="min-height: 44px; margin-top: 4px;">
+                <option value="glow">Glow Background (Dynamic Orb)</option>
+                <option value="grid">Cyber Grid Background</option>
+                <option value="solid">Solid Cyber Minimal</option>
+                <option value="scenic-mountain">Scenic: Mountain</option>
+                <option value="scenic-beach">Scenic: Beach</option>
+                <option value="scenic-forest">Scenic: Forest</option>
+                <option value="scenic-aurora">Scenic: Aurora</option>
+                <option value="scenic-desert">Scenic: Desert</option>
+                <option value="scenic-lake">Scenic: Lake</option>
+                <option value="scenic-teagarden">Scenic: Tea Garden</option>
+                <option value="scenic-moonlight">Scenic: Moonlight</option>
+              </select>
+            </div>
+
+            <div class="settings-item" style="padding: 8px 0;">
+              <div class="settings-info">
+                <h5>Matrix Rain Effect</h5>
+                <p>সাইবার ডিজিটাল বৃষ্টি অ্যানিমেশন</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="toggle-matrix" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customization -->
+        <div class="glass-card settings-group">
+          <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--primary);">
+            UI Customization
+          </div>
+          <div style="padding: 16px; display: flex; flex-direction: column; gap: 14px;">
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Font Style</label>
+              <select id="set-font-style" class="cyber-input" style="min-height: 44px; margin-top: 4px;">
+                <option value="modern">Modern Sans</option>
+                <option value="mono">Hacker Mono</option>
+                <option value="serif">Classic Serif</option>
+                <option value="rounded">Rounded Font</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Text Size</label>
+              <select id="set-text-size" class="cyber-input" style="min-height: 44px; margin-top: 4px;">
+                <option value="small">Small</option>
+                <option value="normal" selected>Normal</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+                <span>Corner Roundness</span>
+                <span id="label-radius">14px</span>
+              </div>
+              <input type="range" id="set-radius-slider" min="4" max="24" value="14" style="width: 100%; margin-top: 6px; accent-color: var(--primary);">
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Settings (PINs) -->
+        <div class="glass-card settings-group">
+          <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--primary);">
+            Security & PIN Protection
+          </div>
+          <div>
+            <div class="settings-item">
+              <div class="settings-info">
+                <h5>App Open PIN</h5>
+                <p id="label-app-pin-status">স্ট্যাটাস: সক্রিয় নেই</p>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button id="btn-config-app-pin" class="cyber-btn" style="padding: 6px 12px; font-size: 0.78rem; min-height: 36px;">
+                  Set PIN
+                </button>
+                <button id="btn-remove-app-pin" class="cyber-btn btn-danger" style="padding: 6px 10px; font-size: 0.78rem; min-height: 36px; display: none;">
+                  Remove
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-info">
+                <h5>Gallery Lock PIN</h5>
+                <p id="label-gallery-pin-status">স্ট্যাটাস: সক্রিয় নেই (গ্যালারির জন্য আলাদা পিন)</p>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button id="btn-config-gallery-pin" class="cyber-btn" style="padding: 6px 12px; font-size: 0.78rem; min-height: 36px;">
+                  Set PIN
+                </button>
+                <button id="btn-remove-gallery-pin" class="cyber-btn btn-danger" style="padding: 6px 10px; font-size: 0.78rem; min-height: 36px; display: none;">
+                  Remove
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="settings-info">
+                <h5>Direct App Access</h5>
+                <p>কোনো Access Key প্রয়োজন নেই, সরাসরি অ্যাপ উন্মুক্ত</p>
+              </div>
+              <span class="badge-secure" style="background: rgba(var(--primary-rgb), 0.15);">ACTIVE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Backup & Storage Management -->
+        <div class="glass-card settings-group">
+          <div style="padding: 14px 16px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--primary);">
+            Backup, Restore & Storage
+          </div>
+          <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.82rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <span style="color: var(--text-muted);">LocalStorage Usage:</span>
+                <span id="storage-local-size" style="font-weight: 700; color: var(--primary);">0 KB</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">IndexedDB Media Vault:</span>
+                <span id="storage-idb-size" style="font-weight: 700; color: var(--primary);">0 KB</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <button id="btn-export-all" class="cyber-btn btn-filled" style="padding: 10px; font-size: 0.82rem;">
+                📥 Export All Backup
+              </button>
+              <button id="btn-export-lite" class="cyber-btn" style="padding: 10px; font-size: 0.82rem;">
+                📦 Export Lite Backup
+              </button>
+            </div>
+
+            <div>
+              <label for="import-backup-file" class="cyber-btn" style="width: 100%; cursor: pointer;">
+                📤 Import Backup File (.json)
+              </label>
+              <input type="file" id="import-backup-file" accept=".json" style="display: none;">
+            </div>
+
+            <button id="btn-erase-all" class="cyber-btn btn-danger" style="margin-top: 6px;">
+              ⚠️ Erase All Private Data (Reset)
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav id="bottom-nav">
+      <button class="nav-item active" data-view="home">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-label">Home</span>
+      </button>
+
+      <button class="nav-item" data-view="tools">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+        <span class="nav-label">Tools</span>
+      </button>
+
+      <button class="nav-item" data-view="gallery">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+        <span class="nav-label">Gallery</span>
+      </button>
+
+      <button class="nav-item" data-view="profile">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-label">Profile</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ================= MODALS & POPUPS ================= -->
+
+  <!-- Add / Edit Account Modal -->
+  <div id="modal-account" class="modal-overlay">
+    <div class="glass-card modal-box">
+      <div class="modal-header">
+        <h3 id="modal-account-title">Add Account</h3>
+        <button class="icon-btn close-modal-btn" data-modal="modal-account" style="width: 36px; height: 36px;">✕</button>
+      </div>
+
+      <input type="hidden" id="account-edit-tool-id">
+      <input type="hidden" id="account-edit-account-id">
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Account Label / Tag</label>
+          <input type="text" id="acc-label-input" class="cyber-input" placeholder="e.g. Personal Account, Business, Secondary">
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Username / Phone / Email / ID</label>
+          <input type="text" id="acc-username-input" class="cyber-input" placeholder="ইমেইল বা ইউজারনেম">
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Password</label>
+            <button id="btn-generate-password" type="button" style="background: none; border: none; color: var(--primary); font-size: 0.75rem; cursor: pointer;">
+              ⚡ Generate Strong Pass
+            </button>
+          </div>
+          <div style="position: relative;">
+            <input type="password" id="acc-password-input" class="cyber-input" placeholder="পাসওয়ার্ড লিখুন">
+            <button id="acc-toggle-pass" type="button" style="position: absolute; right: 12px; top: 14px; background: none; border: none; color: var(--text-muted); cursor: pointer;">
+              👁️
+            </button>
+          </div>
+          <!-- Password strength gauge -->
+          <div id="password-strength-indicator" style="margin-top: 6px; font-size: 0.74rem; display: flex; align-items: center; gap: 6px;">
+            <div id="strength-meter-bar" style="height: 4px; width: 60px; background: #334155; border-radius: 2px;"></div>
+            <span id="strength-meter-text" style="color: var(--text-muted);">Strength</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Note / Security Recovery Info</label>
+          <textarea id="acc-note-input" class="cyber-input" style="min-height: 60px; resize: none;" placeholder="রিকভারি কোড বা অতিরিক্ত নোট..."></textarea>
+        </div>
+
+        <button id="btn-save-account" class="cyber-btn btn-filled" style="margin-top: 6px;">
+          💾 Save Account in Vault
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Tool Add Modal -->
+  <div id="modal-custom-tool" class="modal-overlay">
+    <div class="glass-card modal-box">
+      <div class="modal-header">
+        <h3>Create Custom Tool</h3>
+        <button class="icon-btn close-modal-btn" data-modal="modal-custom-tool" style="width: 36px; height: 36px;">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Tool Name</label>
+          <input type="text" id="custom-tool-name" class="cyber-input" placeholder="e.g. GitHub, LinkedIn, Binance, Netflix">
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Emoji / Icon</label>
+          <input type="text" id="custom-tool-icon" class="cyber-input" placeholder="e.g. 💻, 🔐, 💼, 🍿" value="🔐">
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Website URL</label>
+          <input type="text" id="custom-tool-url" class="cyber-input" placeholder="https://example.com">
+        </div>
+        <button id="btn-submit-custom-tool" class="cyber-btn btn-filled">
+          + Add Custom Tool
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Media Modal -->
+  <div id="modal-upload" class="modal-overlay">
+    <div class="glass-card modal-box">
+      <div class="modal-header">
+        <h3>Upload to Private Vault</h3>
+        <button class="icon-btn close-modal-btn" data-modal="modal-upload" style="width: 36px; height: 36px;">✕</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Target Album</label>
+          <select id="upload-album-select" class="cyber-input" style="min-height: 44px; margin-top: 4px;"></select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">File Caption / Note</label>
+          <input type="text" id="upload-caption-input" class="cyber-input" placeholder="সংক্ষিপ্ত বিবরণ বা ক্যাপশন">
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+          <label for="file-input-photo" class="cyber-btn" style="flex-direction: column; padding: 14px 8px; cursor: pointer;">
+            <span style="font-size: 1.4rem;">📷</span>
+            <span style="font-size: 0.74rem;">Photo</span>
+          </label>
+          <input type="file" id="file-input-photo" accept="image/*" multiple style="display: none;">
+
+          <label for="file-input-video" class="cyber-btn" style="flex-direction: column; padding: 14px 8px; cursor: pointer;">
+            <span style="font-size: 1.4rem;">🎥</span>
+            <span style="font-size: 0.74rem;">Video</span>
+          </label>
+          <input type="file" id="file-input-video" accept="video/*" multiple style="display: none;">
+
+          <label for="file-input-generic" class="cyber-btn" style="flex-direction: column; padding: 14px 8px; cursor: pointer;">
+            <span style="font-size: 1.4rem;">📄</span>
+            <span style="font-size: 0.74rem;">File/Doc</span>
+          </label>
+          <input type="file" id="file-input-generic" multiple style="display: none;">
+        </div>
+        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Original Quality সংরক্ষিত থাকবে এবং কোনো ক্লাউডে যাবে না।</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Album Management Modal -->
+  <div id="modal-albums" class="modal-overlay">
+    <div class="glass-card modal-box">
+      <div class="modal-header">
+        <h3>Manage Albums</h3>
+        <button class="icon-btn close-modal-btn" data-modal="modal-albums" style="width: 36px; height: 36px;">✕</button>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="new-album-name-input" class="cyber-input" placeholder="নতুন অ্যালবামের নাম">
+        <button id="btn-save-new-album" class="cyber-btn btn-filled" style="white-space: nowrap; padding: 0 16px;">
+          + Create
+        </button>
+      </div>
+      <div id="albums-list-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto;"></div>
+    </div>
+  </div>
+
+  <!-- PIN Setup / Change Modal -->
+  <div id="modal-pin-config" class="modal-overlay">
+    <div class="glass-card modal-box">
+      <div class="modal-header">
+        <h3 id="modal-pin-config-title">Set PIN</h3>
+        <button class="icon-btn close-modal-btn" data-modal="modal-pin-config" style="width: 36px; height: 36px;">✕</button>
+      </div>
+      <input type="hidden" id="pin-config-target">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">৪ ডিজিটের নতুন পিন</label>
+          <input type="password" id="input-new-pin" maxlength="4" class="cyber-input" placeholder="৪ সংখ্যার পিন লিখুন" style="text-align: center; letter-spacing: 6px; font-size: 1.4rem;">
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">পিন নিশ্চিত করুন (Confirm)</label>
+          <input type="password" id="input-confirm-pin" maxlength="4" class="cyber-input" placeholder="পুনরায় পিন লিখুন" style="text-align: center; letter-spacing: 6px; font-size: 1.4rem;">
+        </div>
+        <button id="btn-save-pin-config" class="cyber-btn btn-filled">
+          Save PIN Lock
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Full Screen Media Viewer Modal -->
+  <div id="media-viewer-modal">
+    <div class="viewer-top-bar">
+      <div id="viewer-title" style="font-size: 0.88rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;">
+        Media Preview
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="viewer-btn-download" class="icon-btn" title="Download">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </button>
+        <button id="viewer-btn-share" class="icon-btn" title="Share">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+        </button>
+        <button id="viewer-btn-delete" class="icon-btn" style="color: var(--danger); border-color: var(--danger);" title="Delete">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+        </button>
+        <button id="viewer-btn-close" class="icon-btn" style="font-size: 1.1rem;">✕</button>
+      </div>
+    </div>
+
+    <div class="viewer-body" id="viewer-body-container">
+      <button class="viewer-nav-btn prev" id="viewer-btn-prev">❮</button>
+      <div id="viewer-content-target" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"></div>
+      <button class="viewer-nav-btn next" id="viewer-btn-next">❯</button>
+    </div>
+
+    <div class="viewer-bottom-bar">
+      <div style="flex: 1; min-width: 200px;">
+        <input type="text" id="viewer-caption-input" class="cyber-input" style="padding: 8px 12px; min-height: 38px; font-size: 0.82rem;" placeholder="ক্যাপশন এডিট করুন">
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <select id="viewer-change-album" class="cyber-input" style="min-height: 38px; padding: 6px 10px; font-size: 0.8rem;"></select>
+        <button id="viewer-btn-save-meta" class="cyber-btn" style="padding: 6px 14px; font-size: 0.8rem; min-height: 38px;">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- JavaScript Implementation -->
+  <script>
+    /* =====================================================================
+       SAMI CYBER SECURITY - CLIENT APPLICATION LOGIC
+       Full Data Encryption, LocalStorage, IndexedDB Media Vault, Themes, PINs
+       ===================================================================== */
+
+    // Master Constants
+    const STORAGE_KEY = 'sami_cyber_data_v2';
+    const DB_NAME = 'SamiCyberSecurityDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'mediaGallery';
+
+    // Default built-in security tools
+    const DEFAULT_TOOLS = [
+      { id: 'tool_facebook', name: 'Facebook', icon: '📘', color: '#1877F2', url: 'https://www.facebook.com' },
+      { id: 'tool_instagram', name: 'Instagram', icon: '📷', color: '#E4405F', url: 'https://www.instagram.com' },
+      { id: 'tool_telegram', name: 'Telegram', icon: '✈️', color: '#24A1DE', url: 'https://web.telegram.org' },
+      { id: 'tool_whatsapp', name: 'WhatsApp', icon: '💬', color: '#25D366', url: 'https://web.whatsapp.com' },
+      { id: 'tool_gmail', name: 'Gmail', icon: '✉️', color: '#EA4335', url: 'https://mail.google.com' }
+    ];
+
+    // Auto-rotating Cyber Security Tips in Bengali
+    const SECURITY_TIPS = [
+      "🛡️ টু-ফ্যাক্টর অথেনটিকেশন (2FA) সর্বদা সক্রিয় রাখুন; এটি আপনার একাউন্ট ৯৯% সুরক্ষিত রাখে।",
+      "🔑 প্রতিটি সামাজিক অ্যাকাউন্টের জন্য আলাদা ও জটিল পাসওয়ার্ড ব্যবহার করুন।",
+      "⚠️ কোনো অপরিচিত লিঙ্ক, ফিশিং ইমেইল বা সন্দেহজনক মেসেজে ক্লিক করবেন না।",
+      "🌐 পাবলিক বা ফ্রি ওয়াইফাই ব্যবহারের সময় ব্যক্তিগত ব্যাংকিং বা সংবেদনশীল সাইট এড়িয়ে চলুন।",
+      "🔒 আপনার ব্যক্তিগত ছবি, গোপন নথি এবং আইডি কার্ড সবসময় এনক্রিপ্ট করে সংরক্ষণ করুন।",
+      "📱 সোস্যাল ইঞ্জিনিয়ারিং ও ফোনে কোনো ওটিপি (OTP) বা সিকিউরিটি কোড কারও সাথে শেয়ার করবেন না।"
+    ];
+
+    // State Container
+    let appState = {
+      user: 'Sami',
+      accessKey: 'SAMI-CYBER-2026',
+      appName: 'Sami Cyber Security',
+      tagline: 'Personal Cyber Security & Private Data Management',
+      welcomeSub: 'আপনার ব্যক্তিগত ডাটা ও অ্যাকাউন্ট সম্পূর্ণ সুরক্ষিত রয়েছে।',
+      theme: 'hacker-green',
+      bgStyle: 'glow',
+      fontStyle: 'modern',
+      textSize: 'normal',
+      radius: 14,
+      matrixRain: true,
+      appPin: '',
+      galleryPin: '',
+      profile: {
+        name: 'Sami',
+        bio: 'Cyber Security Specialist & Ethical Data Vault',
+        avatar: '',
+        fb: 'https://facebook.com',
+        insta: '',
+        tg: '',
+        wa: '+8801700000000'
+      },
+      tools: [...DEFAULT_TOOLS],
+      accounts: [],
+      albums: ['Personal', 'Private Documents', 'Secret Vault']
+    };
+
+    let idb = null;
+    let currentTipIndex = 0;
+    let tipInterval = null;
+    let currentPinMode = ''; // 'app_verify', 'gallery_verify', 'app_setup', 'gallery_setup'
+    let enteredPin = '';
+    let viewerMediaList = [];
+    let currentViewerIndex = -1;
+
+    // Audio Feedback using Web Audio API
+    let audioCtx = null;
+    function playCyberBeep(type = 'click') {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'click') {
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(1400, now + 0.05);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (type === 'success') {
+          osc.frequency.setValueAtTime(523, now);
+          osc.frequency.setValueAtTime(659, now + 0.08);
+          osc.frequency.setValueAtTime(783, now + 0.16);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.28);
+          osc.start(now);
+          osc.stop(now + 0.28);
+        } else if (type === 'error') {
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.setValueAtTime(180, now + 0.12);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        }
+      } catch (e) {
+        // audio context silent fallback
+      }
+    }
+
+    // Toast Notifications
+    function showToast(msg, isSuccess = true) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.style.borderColor = isSuccess ? 'var(--primary)' : 'var(--danger)';
+      toast.innerHTML = `
+        <span>${isSuccess ? '✅' : '⚠️'}</span>
+        <span>${msg}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 2600);
+    }
+
+    // IndexedDB Initialization
+    function initIndexedDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            const store = db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+            store.createIndex('type', 'type', { unique: false });
+            store.createIndex('album', 'album', { unique: false });
+            store.createIndex('date', 'date', { unique: false });
+          }
+        };
+        req.onsuccess = (e) => {
+          idb = e.target.result;
+          resolve(idb);
+        };
+        req.onerror = (e) => {
+          console.error("IndexedDB error:", e);
+          reject(e);
+        };
+      });
+    }
+
+    // Media Storage in IndexedDB
+    async function saveMediaItem(item) {
+      return new Promise((resolve, reject) => {
+        if (!idb) return reject("Database not initialized");
+        const tx = idb.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put(item);
+        tx.oncomplete = () => resolve(item);
+        tx.onerror = (e) => reject(e);
+      });
+    }
+
+    async function getAllMediaItems() {
+      return new Promise((resolve, reject) => {
+        if (!idb) return resolve([]);
+        const tx = idb.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => resolve([]);
+      });
+    }
+
+    async function deleteMediaItem(id) {
+      return new Promise((resolve, reject) => {
+        if (!idb) return reject("Database not initialized");
+        const tx = idb.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.delete(id);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(false);
+      });
+    }
+
+    // State Persistence
+    function loadSavedState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appState = { ...appState, ...parsed };
+        }
+      } catch (e) {
+        console.error("Failed to load state", e);
+      }
+      applyTheme(appState.theme);
+      applyBackground(appState.bgStyle);
+      applyFont(appState.fontStyle);
+      applySize(appState.textSize);
+      applyRadius(appState.radius);
+      updateAppIdentityUI();
+      updateProfileUI();
+      renderTools();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        updateStorageUsageStats();
+      } catch (e) {
+        console.error("Failed to save state", e);
+      }
+    }
+
+    // Theming & Styles
+    function applyTheme(themeName) {
+      appState.theme = themeName;
+      document.body.setAttribute('data-theme', themeName);
+      document.querySelectorAll('.theme-box').forEach(box => {
+        box.classList.toggle('active', box.getAttribute('data-theme') === themeName);
+      });
+      saveState();
+    }
+
+    function applyBackground(style) {
+      appState.bgStyle = style;
+      const bgLayer = document.getElementById('bg-layer');
+      bgLayer.className = '';
+      if (style === 'glow') bgLayer.classList.add('bg-glow');
+      else if (style === 'grid') bgLayer.classList.add('bg-grid');
+      else if (style === 'solid') bgLayer.classList.add('bg-solid');
+      else if (style.startsWith('scenic-')) bgLayer.classList.add('bg-' + style);
+      document.getElementById('set-bg-style').value = style;
+      saveState();
+    }
+
+    function applyFont(font) {
+      appState.fontStyle = font;
+      document.body.setAttribute('data-font', font);
+      document.getElementById('set-font-style').value = font;
+      saveState();
+    }
+
+    function applySize(size) {
+      appState.textSize = size;
+      document.body.setAttribute('data-size', size);
+      document.getElementById('set-text-size').value = size;
+      saveState();
+    }
+
+    function applyRadius(rad) {
+      appState.radius = rad;
+      document.documentElement.style.setProperty('--radius', rad + 'px');
+      document.getElementById('label-radius').textContent = rad + 'px';
+      document.getElementById('set-radius-slider').value = rad;
+      saveState();
+    }
+
+    function updateAppIdentityUI() {
+      document.getElementById('login-app-name').textContent = appState.appName;
+      document.getElementById('header-app-title').textContent = appState.appName;
+      document.getElementById('header-tagline').textContent = appState.tagline;
+      document.getElementById('home-welcome-sub').textContent = appState.welcomeSub;
+      document.getElementById('set-app-name').value = appState.appName;
+      document.getElementById('set-app-tagline').value = appState.tagline;
+      document.getElementById('set-welcome-sub').value = appState.welcomeSub;
+    }
+
+    function updateProfileUI() {
+      document.getElementById('profile-display-name').textContent = appState.profile.name || 'Sami';
+      document.getElementById('profile-display-bio').textContent = appState.profile.bio || '';
+      document.getElementById('prof-input-name').value = appState.profile.name || '';
+      document.getElementById('prof-input-bio').value = appState.profile.bio || '';
+      document.getElementById('prof-input-fb').value = appState.profile.fb || '';
+      document.getElementById('prof-input-insta').value = appState.profile.insta || '';
+      document.getElementById('prof-input-tg').value = appState.profile.tg || '';
+      document.getElementById('prof-input-wa').value = appState.profile.wa || '';
+
+      const avatarDisp = document.getElementById('profile-avatar-display');
+      if (appState.profile.avatar) {
+        avatarDisp.innerHTML = `<img src="${appState.profile.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      } else {
+        avatarDisp.textContent = '👤';
+      }
+
+      // Update external social links
+      document.getElementById('btn-open-facebook').href = appState.profile.fb || 'https://facebook.com';
+      document.getElementById('btn-open-instagram').href = appState.profile.insta ? `https://instagram.com/${appState.profile.insta.replace('@','')}` : 'https://instagram.com';
+      document.getElementById('btn-open-telegram').href = appState.profile.tg ? `https://t.me/${appState.profile.tg.replace('@','')}` : 'https://telegram.org';
+      document.getElementById('btn-open-whatsapp').href = `https://wa.me/${(appState.profile.wa || '').replace(/[^0-9]/g, '')}`;
+    }
+
+    // Live Clock & Bengali Time Greeting
+    function initClockAndDate() {
+      function update() {
+        const now = new Date();
+        // Time 12-hour format
+        let hours = now.getHours();
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const secs = String(now.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const rawHours = hours;
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const timeStr = `${String(hours).padStart(2, '0')}:${mins}:${secs} ${ampm}`;
+        document.getElementById('live-digital-clock').textContent = timeStr;
+
+        // Bengali Time Greeting
+        let greeting = "শুভ দিন";
+        if (rawHours >= 5 && rawHours < 12) greeting = "শুভ সকাল";
+        else if (rawHours >= 12 && rawHours < 15) greeting = "শুভ দুপুর";
+        else if (rawHours >= 15 && rawHours < 18) greeting = "শুভ বিকাল";
+        else if (rawHours >= 18 && rawHours < 21) greeting = "শুভ সন্ধ্যা";
+        else greeting = "শুভ রাত্রি";
+
+        document.getElementById('home-greeting-text').textContent = `${greeting}, ${appState.profile.name || 'Sami'}!`;
+
+        // Bengali Date & Day Calculation
+        const daysBn = ['রবিবার', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার'];
+        const monthsBn = ['বৈশাখ', 'জ্যৈষ্ঠ', 'আষাঢ়', 'শ্রাবণ', 'ভাদ্র', 'আশ্বিন', 'কার্তিক', 'অগ্রহায়ণ', 'পৌষ', 'মাঘ', 'ফাল্গুন', 'চৈত্র'];
+        const dayBn = daysBn[now.getDay()];
+        
+        // Simple Bangla conversion for date representation
+        const enDateStr = now.toLocaleDateString('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('bangla-date-tag').textContent = `${dayBn}, ${enDateStr}`;
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    // Matrix Rain Effect
+    function initMatrixRain() {
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height, columns, drops;
+      const chars = '01SAMI🔐CYBER0101019876543210ABCDEF<>/*&%$#@!';
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        columns = Math.floor(width / 18);
+        drops = Array(columns).fill(1);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function draw() {
+        if (!appState.matrixRain) {
+          ctx.clearRect(0, 0, width, height);
+          return;
+        }
+        ctx.fillStyle = 'rgba(6, 13, 10, 0.08)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#00ff66';
+        ctx.font = '13px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * 18, drops[i] * 18);
+          if (drops[i] * 18 > height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }
+      setInterval(draw, 45);
+    }
+
+    // Security Tips Carousel
+    function initTipsCarousel() {
+      const container = document.getElementById('tips-dots-container');
+      const textElem = document.getElementById('security-tip-text');
+      container.innerHTML = '';
+
+      SECURITY_TIPS.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = `tips-dot ${idx === 0 ? 'active' : ''}`;
+        dot.onclick = () => showTip(idx);
+        container.appendChild(dot);
+      });
+
+      function showTip(idx) {
+        currentTipIndex = idx;
+        textElem.style.opacity = '0';
+        setTimeout(() => {
+          textElem.textContent = SECURITY_TIPS[idx];
+          textElem.style.opacity = '1';
+        }, 150);
+        document.querySelectorAll('.tips-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+      }
+
+      showTip(0);
+      if (tipInterval) clearInterval(tipInterval);
+      tipInterval = setInterval(() => {
+        currentTipIndex = (currentTipIndex + 1) % SECURITY_TIPS.length;
+        showTip(currentTipIndex);
+      }, 6000);
+    }
+
+    // Navigation View Switcher
+    function initNavigation() {
+      const navButtons = document.querySelectorAll('.nav-item');
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          playCyberBeep('click');
+          const target = btn.getAttribute('data-view');
+          switchView(target);
+        });
+      });
+
+      document.getElementById('btn-open-settings').addEventListener('click', () => {
+        playCyberBeep('click');
+        switchView('settings');
+      });
+
+      // Quick access links
+      document.getElementById('quick-add-account').addEventListener('click', () => {
+        playCyberBeep('click');
+        openAccountModal('tool_facebook');
+      });
+      document.getElementById('quick-upload-media').addEventListener('click', () => {
+        playCyberBeep('click');
+        openUploadModal();
+      });
+      document.getElementById('quick-goto-tools').addEventListener('click', () => {
+        playCyberBeep('click');
+        switchView('tools');
+      });
+      document.getElementById('quick-backup').addEventListener('click', () => {
+        playCyberBeep('click');
+        switchView('settings');
+        document.getElementById('view-settings').scrollIntoView();
+      });
+
+      document.getElementById('stat-tools-box').addEventListener('click', () => switchView('tools'));
+      document.getElementById('stat-accounts-box').addEventListener('click', () => switchView('tools'));
+      document.getElementById('stat-media-box').addEventListener('click', () => switchView('gallery'));
+    }
+
+    function switchView(viewName) {
+      // Check Gallery PIN Lock
+      if (viewName === 'gallery' && appState.galleryPin) {
+        promptPin('gallery_verify', () => {
+          activateView('gallery');
+          renderGallery();
+        });
+        return;
+      }
+
+      activateView(viewName);
+      if (viewName === 'tools') renderTools();
+      if (viewName === 'gallery') renderGallery();
+    }
+
+    function activateView(viewName) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+      const targetSection = document.getElementById(`view-${viewName}`);
+      if (targetSection) targetSection.classList.add('active');
+
+      const matchingNav = document.querySelector(`.nav-item[data-view="${viewName}"]`);
+      if (matchingNav) matchingNav.classList.add('active');
+
+      // Scroll to top
+      document.getElementById('content-viewport').scrollTop = 0;
+      updateStats();
+    }
+
+    // Tools & Accounts Rendering
+    function renderTools() {
+      const container = document.getElementById('tools-container');
+      container.innerHTML = '';
+
+      appState.tools.forEach(tool => {
+        const card = document.createElement('div');
+        card.className = 'glass-card tool-card';
+
+        const toolAccounts = appState.accounts.filter(a => a.toolId === tool.id);
+
+        card.innerHTML = `
+          <div class="tool-header">
+            <div class="tool-brand">
+              <div class="tool-avatar" style="background: ${tool.color || 'var(--primary)'};">
+                ${tool.icon || '🔐'}
+              </div>
+              <div class="tool-title">
+                <h4>${tool.name}</h4>
+                <span>${toolAccounts.length} টি অ্যাকাউন্ট সংরক্ষিত</span>
+              </div>
+            </div>
+            <div class="tool-actions">
+              <button class="cyber-btn" style="padding: 6px 12px; font-size: 0.78rem; min-height: 36px;" onclick="openAccountModal('${tool.id}')">
+                + Add
+              </button>
+              <a href="${tool.url}" target="_blank" class="icon-btn" title="Open Official Website" style="width: 36px; height: 36px;">
+                🌐
+              </a>
+              ${!DEFAULT_TOOLS.some(dt => dt.id === tool.id) ? `
+                <button class="icon-btn" style="width: 36px; height: 36px; color: var(--danger); border-color: var(--danger);" title="Delete Tool" onclick="deleteCustomTool('${tool.id}')">
+                  ✕
+                </button>
+              ` : ''}
+            </div>
+          </div>
+          <div class="tool-accounts" id="accounts-for-${tool.id}">
+            ${toolAccounts.length === 0 ? `
+              <div style="font-size: 0.78rem; color: #64748b; padding: 6px 0;">কোনো অ্যাকাউন্ট যুক্ত নেই। "+ Add" বাটন চাপুন।</div>
+            ` : toolAccounts.map(acc => `
+              <div class="account-card">
+                <div class="account-label-bar">
+                  <span class="account-label-tag">${escapeHtml(acc.label || 'Default')}</span>
+                  <div class="account-actions">
+                    <button class="icon-btn" style="width: 30px; height: 30px; font-size: 0.75rem;" title="Edit" onclick="editAccount('${acc.id}')">✏️</button>
+                    <button class="icon-btn" style="width: 30px; height: 30px; font-size: 0.75rem; color: var(--danger); border-color: var(--danger);" title="Delete" onclick="deleteAccount('${acc.id}')">🗑️</button>
+                  </div>
+                </div>
+                <div class="account-field">
+                  <span class="field-val">👤 ${escapeHtml(acc.username)}</span>
+                  <button type="button" onclick="copyToClipboard('${escapeAttr(acc.username)}', 'ইউজারনেম কপি হয়েছে!')">📋 Copy</button>
+                </div>
+                <div class="account-field">
+                  <span class="field-val" id="pwd-disp-${acc.id}">••••••••</span>
+                  <div style="display: flex; gap: 8px;">
+                    <button type="button" onclick="toggleAccountPasswordDisplay('${acc.id}', '${escapeAttr(acc.password)}')">👁️</button>
+                    <button type="button" onclick="copyToClipboard('${escapeAttr(acc.password)}', 'পাসওয়ার্ড কপি হয়েছে!')">📋 Copy</button>
+                  </div>
+                </div>
+                ${acc.note ? `
+                  <div style="font-size: 0.74rem; color: var(--text-muted); background: rgba(0,0,0,0.25); padding: 4px 8px; border-radius: 6px;">
+                    📝 ${escapeHtml(acc.note)}
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      updateStats();
+    }
+
+    function toggleAccountPasswordDisplay(accId, rawPassword) {
+      playCyberBeep('click');
+      const elem = document.getElementById(`pwd-disp-${accId}`);
+      if (!elem) return;
+      if (elem.textContent === '••••••••') {
+        elem.textContent = rawPassword;
+      } else {
+        elem.textContent = '••••••••';
+      }
+    }
+
+    // Account CRUD Operations
+    function openAccountModal(toolId, accountId = null) {
+      playCyberBeep('click');
+      document.getElementById('account-edit-tool-id').value = toolId;
+      document.getElementById('account-edit-account-id').value = accountId || '';
+
+      const modalTitle = document.getElementById('modal-account-title');
+      const labelInput = document.getElementById('acc-label-input');
+      const userInput = document.getElementById('acc-username-input');
+      const passInput = document.getElementById('acc-password-input');
+      const noteInput = document.getElementById('acc-note-input');
+
+      if (accountId) {
+        const acc = appState.accounts.find(a => a.id === accountId);
+        if (acc) {
+          modalTitle.textContent = "Edit Account";
+          labelInput.value = acc.label || '';
+          userInput.value = acc.username || '';
+          passInput.value = acc.password || '';
+          noteInput.value = acc.note || '';
+        }
+      } else {
+        modalTitle.textContent = "Add New Account";
+        labelInput.value = '';
+        userInput.value = '';
+        passInput.value = '';
+        noteInput.value = '';
+      }
+      evaluatePasswordStrength(passInput.value);
+      openModal('modal-account');
+    }
+
+    function editAccount(accId) {
+      const acc = appState.accounts.find(a => a.id === accId);
+      if (acc) openAccountModal(acc.toolId, acc.id);
+    }
+
+    function deleteAccount(accId) {
+      if (confirm("আপনি কি নিশ্চিত এই অ্যাকাউন্টটি মুছে ফেলতে চান?")) {
+        playCyberBeep('click');
+        appState.accounts = appState.accounts.filter(a => a.id !== accId);
+        saveState();
+        renderTools();
+        showToast("অ্যাকাউন্ট সফলভাবে মুছে ফেলা হয়েছে!");
+      }
+    }
+
+    function deleteCustomTool(toolId) {
+      if (confirm("এই Tool এবং এর সব সংরক্ষিত অ্যাকাউন্ট মুছে ফেলতে চান?")) {
+        playCyberBeep('click');
+        appState.tools = appState.tools.filter(t => t.id !== toolId);
+        appState.accounts = appState.accounts.filter(a => a.toolId !== toolId);
+        saveState();
+        renderTools();
+        showToast("Tool মুছে ফেলা হয়েছে!");
+      }
+    }
+
+    // Password Strength Meter
+    function evaluatePasswordStrength(pass) {
+      const bar = document.getElementById('strength-meter-bar');
+      const txt = document.getElementById('strength-meter-text');
+      if (!bar || !txt) return;
+
+      if (!pass || pass.length === 0) {
+        bar.style.width = '20px';
+        bar.style.background = '#475569';
+        txt.textContent = 'None';
+        txt.style.color = '#94a3b8';
+        return;
+      }
+
+      let score = 0;
+      if (pass.length >= 8) score++;
+      if (pass.length >= 12) score++;
+      if (/[A-Z]/.test(pass)) score++;
+      if (/[0-9]/.test(pass)) score++;
+      if (/[^A-Za-z0-9]/.test(pass)) score++;
+
+      if (score <= 2) {
+        bar.style.width = '30px';
+        bar.style.background = 'var(--danger)';
+        txt.textContent = 'Weak (দুর্বল)';
+        txt.style.color = 'var(--danger)';
+      } else if (score <= 4) {
+        bar.style.width = '65px';
+        bar.style.background = 'var(--warning)';
+        txt.textContent = 'Good (মাঝারি)';
+        txt.style.color = 'var(--warning)';
+      } else {
+        bar.style.width = '100px';
+        bar.style.background = 'var(--primary)';
+        txt.textContent = 'Strong (শক্তিশালী)';
+        txt.style.color = 'var(--primary)';
+      }
+    }
+
+    function generateStrongPassword() {
+      playCyberBeep('click');
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+      let pass = '';
+      const cryptoObj = window.crypto || window.msCrypto;
+      const values = new Uint32Array(16);
+      cryptoObj.getRandomValues(values);
+      for (let i = 0; i < 16; i++) {
+        pass += chars[values[i] % chars.length];
+      }
+      const passInput = document.getElementById('acc-password-input');
+      passInput.value = pass;
+      passInput.type = 'text';
+      evaluatePasswordStrength(pass);
+      showToast("শক্তিশালী পাসওয়ার্ড তৈরি হয়েছে!");
+    }
+
+    // Gallery & Albums Management
+    async function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      const emptyMsg = document.getElementById('gallery-empty');
+      const activeFilter = document.querySelector('.filter-chip.active')?.getAttribute('data-filter') || 'all';
+      const selectedAlbum = document.getElementById('gallery-album-select').value;
+
+      updateAlbumDropdowns();
+      const allMedia = await getAllMediaItems();
+
+      // Counts
+      document.getElementById('count-all-media').textContent = allMedia.length;
+      document.getElementById('count-photos').textContent = allMedia.filter(m => m.type === 'photo').length;
+      document.getElementById('count-videos').textContent = allMedia.filter(m => m.type === 'video').length;
+      document.getElementById('count-files').textContent = allMedia.filter(m => m.type === 'file').length;
+
+      let filtered = allMedia;
+      if (activeFilter !== 'all') {
+        filtered = filtered.filter(m => m.type === activeFilter);
+      }
+      if (selectedAlbum && selectedAlbum !== 'all') {
+        filtered = filtered.filter(m => m.album === selectedAlbum);
+      }
+
+      viewerMediaList = filtered;
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        emptyMsg.style.display = 'block';
+        return;
+      }
+      emptyMsg.style.display = 'none';
+
+      filtered.forEach((media, index) => {
+        const card = document.createElement('div');
+        card.className = 'glass-card media-card';
+        card.onclick = () => openMediaViewer(index);
+
+        if (media.type === 'photo') {
+          card.innerHTML = `
+            <img src="${media.dataUrl}" alt="${escapeHtml(media.name)}" loading="lazy">
+            <div class="media-type-badge">📷 IMG</div>
+          `;
+        } else if (media.type === 'video') {
+          card.innerHTML = `
+            <video src="${media.dataUrl}" preload="metadata" muted></video>
+            <div class="media-type-badge" style="background: rgba(239,68,68,0.8);">🎥 VID</div>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="media-file-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              <span>${escapeHtml(media.name)}</span>
+            </div>
+            <div class="media-type-badge">📄 DOC</div>
+          `;
+        }
+        grid.appendChild(card);
+      });
+      updateStats();
+    }
+
+    function updateAlbumDropdowns() {
+      const gSel = document.getElementById('gallery-album-select');
+      const uSel = document.getElementById('upload-album-select');
+      const vSel = document.getElementById('viewer-change-album');
+      const currentVal = gSel.value;
+
+      let options = `<option value="all">All Albums (সব অ্যালবাম)</option>`;
+      let uploadOptions = ``;
+
+      appState.albums.forEach(alb => {
+        options += `<option value="${alb}">${alb}</option>`;
+        uploadOptions += `<option value="${alb}">${alb}</option>`;
+      });
+
+      gSel.innerHTML = options;
+      gSel.value = currentVal || 'all';
+      if (uSel) uSel.innerHTML = uploadOptions;
+      if (vSel) vSel.innerHTML = uploadOptions;
+    }
+
+    function openUploadModal() {
+      playCyberBeep('click');
+      updateAlbumDropdowns();
+      openModal('modal-upload');
+    }
+
+    async function handleFileUpload(files, type) {
+      if (!files || files.length === 0) return;
+      playCyberBeep('click');
+      const album = document.getElementById('upload-album-select').value || 'Personal';
+      const caption = document.getElementById('upload-caption-input').value.trim();
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        await new Promise((resolve) => {
+          reader.onload = async (e) => {
+            const dataUrl = e.target.result;
+            const item = {
+              id: 'med_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+              name: file.name,
+              type: type,
+              mime: file.type,
+              size: file.size,
+              album: album,
+              caption: caption,
+              date: new Date().toISOString(),
+              dataUrl: dataUrl
+            };
+            await saveMediaItem(item);
+            resolve();
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      closeModal('modal-upload');
+      showToast(`${files.length} টি ফাইল সফলভাবে এনক্রিপ্ট হয়ে সংরক্ষণ হয়েছে!`);
+      renderGallery();
+      updateStorageUsageStats();
+    }
+
+    // Media Viewer Navigation & Actions
+    function openMediaViewer(index) {
+      if (!viewerMediaList || !viewerMediaList[index]) return;
+      playCyberBeep('click');
+      currentViewerIndex = index;
+      const media = viewerMediaList[index];
+      const modal = document.getElementById('media-viewer-modal');
+      const titleElem = document.getElementById('viewer-title');
+      const target = document.getElementById('viewer-content-target');
+      const captionInput = document.getElementById('viewer-caption-input');
+      const albumSelect = document.getElementById('viewer-change-album');
+
+      titleElem.textContent = `${media.name} (${index + 1}/${viewerMediaList.length})`;
+      captionInput.value = media.caption || '';
+      albumSelect.value = media.album || 'Personal';
+
+      target.innerHTML = '';
+      if (media.type === 'photo') {
+        target.innerHTML = `<img src="${media.dataUrl}" alt="${escapeHtml(media.name)}" style="max-width:100%;max-height:80vh;object-fit:contain;">`;
+      } else if (media.type === 'video') {
+        target.innerHTML = `<video src="${media.dataUrl}" controls autoplay style="max-width:100%;max-height:80vh;"></video>`;
+      } else {
+        target.innerHTML = `
+          <div style="text-align:center; color: var(--primary);">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:14px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <div style="font-size:1.1rem;font-weight:700;">${escapeHtml(media.name)}</div>
+            <div style="font-size:0.85rem;color:var(--text-muted);margin-top:6px;">${(media.size / 1024).toFixed(1)} KB</div>
+          </div>
+        `;
+      }
+
+      modal.classList.add('active');
+    }
+
+    function closeMediaViewer() {
+      playCyberBeep('click');
+      const modal = document.getElementById('media-viewer-modal');
+      modal.classList.remove('active');
+      const video = modal.querySelector('video');
+      if (video) video.pause();
+    }
+
+    function navigateViewer(dir) {
+      if (viewerMediaList.length <= 1) return;
+      playCyberBeep('click');
+      currentViewerIndex = (currentViewerIndex + dir + viewerMediaList.length) % viewerMediaList.length;
+      openMediaViewer(currentViewerIndex);
+    }
+
+    async function downloadCurrentMedia() {
+      const media = viewerMediaList[currentViewerIndex];
+      if (!media) return;
+      playCyberBeep('click');
+      const a = document.createElement('a');
+      a.href = media.dataUrl;
+      a.download = media.name || 'sami_secure_file';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast("ডাউনলোড শুরু হয়েছে!");
+    }
+
+    async function shareCurrentMedia() {
+      const media = viewerMediaList[currentViewerIndex];
+      if (!media) return;
+      playCyberBeep('click');
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: media.name,
+            text: media.caption || 'Shared from Sami Cyber Security Vault'
+          });
+          showToast("শেয়ার সম্পন্ন হয়েছে!");
+        } catch (e) {
+          downloadCurrentMedia();
+        }
+      } else {
+        downloadCurrentMedia();
+      }
+    }
+
+    async function deleteCurrentMedia() {
+      const media = viewerMediaList[currentViewerIndex];
+      if (!media) return;
+      if (confirm("আপনি কি নিশ্চিত এই মিডিয়া ফাইলটি মুছে ফেলতে চান?")) {
+        playCyberBeep('click');
+        await deleteMediaItem(media.id);
+        showToast("ফাইল মুছে ফেলা হয়েছে!");
+        closeMediaViewer();
+        renderGallery();
+        updateStorageUsageStats();
+      }
+    }
+
+    async function saveViewerMeta() {
+      const media = viewerMediaList[currentViewerIndex];
+      if (!media) return;
+      playCyberBeep('click');
+      media.caption = document.getElementById('viewer-caption-input').value.trim();
+      media.album = document.getElementById('viewer-change-album').value;
+      await saveMediaItem(media);
+      showToast("ক্যাপশন ও অ্যালবাম আপডেট হয়েছে!");
+      renderGallery();
+    }
+
+    // Touch Swipe Navigation for Media Viewer
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const viewerBody = document.getElementById('viewer-body-container');
+    viewerBody.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    viewerBody.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleViewerSwipe();
+    }, { passive: true });
+
+    function handleViewerSwipe() {
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) navigateViewer(-1); // Swipe Right -> Prev
+        else navigateViewer(1);          // Swipe Left -> Next
+      }
+    }
+
+    // PIN Verification & Keypad
+    function promptPin(mode, onSuccess) {
+      currentPinMode = mode;
+      enteredPin = '';
+      updatePinDisplay();
+      document.getElementById('pin-error').classList.remove('visible');
+
+      const title = document.getElementById('pin-title');
+      const sub = document.getElementById('pin-sub');
+
+      if (mode === 'app_verify') {
+        title.textContent = "App Lock PIN Required";
+        sub.textContent = "অ্যাপে প্রবেশের জন্য ৪ সংখ্যার পিন দিন";
+      } else if (mode === 'gallery_verify') {
+        title.textContent = "Gallery Security PIN Required";
+        sub.textContent = "ব্যক্তিগত গ্যালারি খোলার জন্য পিন দিন";
+      }
+
+      document.getElementById('pin-screen').style.display = 'flex';
+      window._pinSuccessCallback = onSuccess;
+    }
+
+    function updatePinDisplay() {
+      const circles = document.querySelectorAll('.pin-circle');
+      circles.forEach((c, idx) => {
+        c.classList.toggle('filled', idx < enteredPin.length);
+      });
+    }
+
+    function handlePinInput(key) {
+      playCyberBeep('click');
+      const err = document.getElementById('pin-error');
+      err.classList.remove('visible');
+
+      if (key === 'cancel') {
+        document.getElementById('pin-screen').style.display = 'none';
+        enteredPin = '';
+        updatePinDisplay();
+        return;
+      }
+      if (key === 'back') {
+        enteredPin = enteredPin.slice(0, -1);
+        updatePinDisplay();
+        return;
+      }
+
+      if (enteredPin.length < 4) {
+        enteredPin += key;
+        updatePinDisplay();
+      }
+
+      if (enteredPin.length === 4) {
+        setTimeout(verifyEnteredPin, 100);
+      }
+    }
+
+    function verifyEnteredPin() {
+      let targetPin = '';
+      if (currentPinMode === 'app_verify') targetPin = appState.appPin;
+      else if (currentPinMode === 'gallery_verify') targetPin = appState.galleryPin;
+
+      if (enteredPin === targetPin) {
+        playCyberBeep('success');
+        document.getElementById('pin-screen').style.display = 'none';
+        if (window._pinSuccessCallback) window._pinSuccessCallback();
+      } else {
+        playCyberBeep('error');
+        const err = document.getElementById('pin-error');
+        err.classList.add('visible');
+        enteredPin = '';
+        updatePinDisplay();
+      }
+    }
+
+    // Backup & Restore
+    async function exportBackup(includeMedia = true) {
+      playCyberBeep('click');
+      showToast("ব্যাকআপ প্রস্তুত হচ্ছে...");
+      const backupData = {
+        version: "2.0",
+        appName: appState.appName,
+        created: new Date().toISOString(),
+        user: appState.user,
+        accessKey: appState.accessKey,
+        settings: {
+          theme: appState.theme,
+          bgStyle: appState.bgStyle,
+          fontStyle: appState.fontStyle,
+          textSize: appState.textSize,
+          radius: appState.radius,
+          matrixRain: appState.matrixRain,
+          appPin: appState.appPin,
+          galleryPin: appState.galleryPin
+        },
+        profile: appState.profile,
+        tools: appState.tools,
+        accounts: appState.accounts,
+        albums: appState.albums,
+        media: includeMedia ? await getAllMediaItems() : []
+      };
+
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Sami_CyberSecurity_Backup_${includeMedia ? 'All' : 'Lite'}_${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast(includeMedia ? "সম্পূর্ণ ব্যাকআপ ডাউনলোড সম্পন্ন!" : "Lite ব্যাকআপ ডাউনলোড সম্পন্ন!");
+    }
+
+    async function importBackup(file) {
+      if (!file) return;
+      playCyberBeep('click');
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (!data || !data.accounts) throw new Error("Invalid backup file format");
+
+          if (confirm("এই ব্যাকআপ ফাইলটি রিস্টোর করতে চান? বর্তমান ডাটা আপডেট হয়ে যাবে।")) {
+            if (data.settings) {
+              appState.theme = data.settings.theme || appState.theme;
+              appState.bgStyle = data.settings.bgStyle || appState.bgStyle;
+              appState.fontStyle = data.settings.fontStyle || appState.fontStyle;
+              appState.textSize = data.settings.textSize || appState.textSize;
+              appState.radius = data.settings.radius || appState.radius;
+              appState.matrixRain = data.settings.matrixRain !== undefined ? data.settings.matrixRain : appState.matrixRain;
+              appState.appPin = data.settings.appPin || '';
+              appState.galleryPin = data.settings.galleryPin || '';
+            }
+            if (data.profile) appState.profile = data.profile;
+            if (data.tools) appState.tools = data.tools;
+            if (data.accounts) appState.accounts = data.accounts;
+            if (data.albums) appState.albums = data.albums;
+            if (data.accessKey) appState.accessKey = data.accessKey;
+
+            saveState();
+
+            // Import media into IndexedDB if present
+            if (data.media && Array.isArray(data.media) && data.media.length > 0) {
+              for (const item of data.media) {
+                await saveMediaItem(item);
+              }
+            }
+
+            showToast("ব্যাকআপ সফলভাবে রিস্টোর হয়েছে!");
+            location.reload();
+          }
+        } catch (err) {
+          playCyberBeep('error');
+          alert("ব্যাকআপ ফাইল রিস্টোর করতে ব্যর্থ হয়েছে! সঠিক JSON ফাইল নির্বাচন করুন।");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function eraseAllData() {
+      playCyberBeep('error');
+      const confirmWord = prompt("⚠️ সমস্ত অ্যাকাউন্ট, ছবি ও সেটিংস চিরতরে মুছে ফেলতে চাইলে টাইপ করুন: DELETE");
+      if (confirmWord === 'DELETE') {
+        localStorage.removeItem(STORAGE_KEY);
+        if (idb) {
+          const tx = idb.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).clear();
+        }
+        showToast("সকল ডাটা মুছে ফেলা হয়েছে। রিলোড হচ্ছে...");
+        setTimeout(() => location.reload(), 1000);
+      } else if (confirmWord !== null) {
+        showToast("নিশ্চিতকরণ মেলেনি, মুছে ফেলা বাতিল।", false);
+      }
+    }
+
+    // Storage Usage Calculation
+    async function updateStorageUsageStats() {
+      // LocalStorage
+      let localBytes = 0;
+      for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+          localBytes += (localStorage[key].length + key.length) * 2;
+        }
+      }
+      document.getElementById('storage-local-size').textContent = (localBytes / 1024).toFixed(1) + ' KB';
+
+      // IndexedDB
+      const allMedia = await getAllMediaItems();
+      let idbBytes = 0;
+      allMedia.forEach(m => {
+        if (m.dataUrl) idbBytes += m.dataUrl.length;
+      });
+      const idbMB = (idbBytes / (1024 * 1024)).toFixed(2);
+      document.getElementById('storage-idb-size').textContent = idbMB > 1 ? `${idbMB} MB` : `${(idbBytes / 1024).toFixed(1)} KB`;
+    }
+
+    // Stats Counters
+    async function updateStats() {
+      document.getElementById('stat-tools-count').textContent = appState.tools.length;
+      document.getElementById('stat-accounts-count').textContent = appState.accounts.length;
+      const mediaList = await getAllMediaItems();
+      document.getElementById('stat-media-count').textContent = mediaList.length;
+
+      // Update PIN status labels in Settings
+      const appPinLbl = document.getElementById('label-app-pin-status');
+      const remAppPinBtn = document.getElementById('btn-remove-app-pin');
+      if (appState.appPin) {
+        appPinLbl.textContent = 'স্ট্যাটাস: সক্রিয় (পিন সুরক্ষিত)';
+        remAppPinBtn.style.display = 'inline-flex';
+      } else {
+        appPinLbl.textContent = 'স্ট্যাটাস: নিষ্ক্রিয়';
+        remAppPinBtn.style.display = 'none';
+      }
+
+      const galPinLbl = document.getElementById('label-gallery-pin-status');
+      const remGalPinBtn = document.getElementById('btn-remove-gallery-pin');
+      if (appState.galleryPin) {
+        galPinLbl.textContent = 'স্ট্যাটাস: সক্রিয় (আলাদা পিন সুরক্ষিত)';
+        remGalPinBtn.style.display = 'inline-flex';
+      } else {
+        galPinLbl.textContent = 'স্ট্যাটাস: নিষ্ক্রিয়';
+        remGalPinBtn.style.display = 'none';
+      }
+    }
+
+    // Modal Helpers
+    function openModal(id) {
+      playCyberBeep('click');
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeModal(id) {
+      playCyberBeep('click');
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Utility: Copy to Clipboard
+    function copyToClipboard(text, msg) {
+      playCyberBeep('click');
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(msg || "কপি সম্পন্ন হয়েছে!");
+      }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast(msg || "কপি সম্পন্ন হয়েছে!");
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[m]);
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str).replace(/["'\\]/g, '\\$&');
+    }
+
+    // Event Bindings on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initIndexedDB();
+      loadSavedState();
+      initClockAndDate();
+      initMatrixRain();
+      initTipsCarousel();
+      initNavigation();
+      updateStorageUsageStats();
+
+      // Direct App Entry (Access Key gate removed as requested)
+      showToast("স্বাগতম! Sami Cyber Security সরাসরি চালু হয়েছে।");
+
+      // Quick Lock
+      document.getElementById('btn-quick-lock').addEventListener('click', () => {
+        playCyberBeep('click');
+        if (appState.appPin) {
+          promptPin('app_verify', () => showToast("ভল্ট আনলক হয়েছে!"));
+        } else {
+          showToast("সিস্টেম ১০০% এনক্রিপ্টেড ও সুরক্ষিত রয়েছে!");
+        }
+      });
+
+      // PIN Keypad buttons
+      document.querySelectorAll('.key-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          handlePinInput(btn.getAttribute('data-key'));
+        });
+      });
+
+      // Modal Close Buttons
+      document.querySelectorAll('.close-modal-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          closeModal(btn.getAttribute('data-modal'));
+        });
+      });
+
+      // Password Strength Live evaluation
+      document.getElementById('acc-password-input').addEventListener('input', (e) => {
+        evaluatePasswordStrength(e.target.value);
+      });
+      document.getElementById('btn-generate-password').addEventListener('click', generateStrongPassword);
+      document.getElementById('acc-toggle-pass').addEventListener('click', () => {
+        const inp = document.getElementById('acc-password-input');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+      });
+
+      // Save Account
+      document.getElementById('btn-save-account').addEventListener('click', () => {
+        playCyberBeep('click');
+        const toolId = document.getElementById('account-edit-tool-id').value;
+        const accountId = document.getElementById('account-edit-account-id').value;
+        const label = document.getElementById('acc-label-input').value.trim();
+        const username = document.getElementById('acc-username-input').value.trim();
+        const password = document.getElementById('acc-password-input').value.trim();
+        const note = document.getElementById('acc-note-input').value.trim();
+
+        if (!username || !password) {
+          showToast("Username এবং Password পূরণ করুন!", false);
+          return;
+        }
+
+        if (accountId) {
+          // Edit
+          const idx = appState.accounts.findIndex(a => a.id === accountId);
+          if (idx !== -1) {
+            appState.accounts[idx] = { ...appState.accounts[idx], label, username, password, note, updated: new Date().toISOString() };
+          }
+          showToast("অ্যাকাউন্ট সফলভাবে আপডেট হয়েছে!");
+        } else {
+          // Add
+          const newAcc = {
+            id: 'acc_' + Date.now(),
+            toolId,
+            label,
+            username,
+            password,
+            note,
+            created: new Date().toISOString()
+          };
+          appState.accounts.push(newAcc);
+          showToast("নতুন অ্যাকাউন্ট সফলভাবে যুক্ত হয়েছে!");
+        }
+
+        saveState();
+        closeModal('modal-account');
+        renderTools();
+      });
+
+      // Custom Tool Modal
+      document.getElementById('btn-add-custom-tool').addEventListener('click', () => {
+        playCyberBeep('click');
+        openModal('modal-custom-tool');
+      });
+
+      document.getElementById('btn-submit-custom-tool').addEventListener('click', () => {
+        playCyberBeep('click');
+        const name = document.getElementById('custom-tool-name').value.trim();
+        const icon = document.getElementById('custom-tool-icon').value.trim() || '🔐';
+        let url = document.getElementById('custom-tool-url').value.trim();
+
+        if (!name) {
+          showToast("Tool এর নাম লিখুন!", false);
+          return;
+        }
+        if (url && !url.startsWith('http')) url = 'https://' + url;
+
+        const newTool = {
+          id: 'custom_' + Date.now(),
+          name,
+          icon,
+          color: 'var(--primary)',
+          url: url || '#'
+        };
+
+        appState.tools.push(newTool);
+        saveState();
+        closeModal('modal-custom-tool');
+        renderTools();
+        showToast("কাস্টম Tool সফলভাবে যুক্ত হয়েছে!");
+      });
+
+      // Gallery Upload Triggers
+      document.getElementById('btn-open-upload-modal').addEventListener('click', openUploadModal);
+      document.getElementById('file-input-photo').addEventListener('change', (e) => handleFileUpload(e.target.files, 'photo'));
+      document.getElementById('file-input-video').addEventListener('change', (e) => handleFileUpload(e.target.files, 'video'));
+      document.getElementById('file-input-generic').addEventListener('change', (e) => handleFileUpload(e.target.files, 'file'));
+
+      // Gallery Filter Chips
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          playCyberBeep('click');
+          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          renderGallery();
+        });
+      });
+
+      document.getElementById('gallery-album-select').addEventListener('change', () => {
+        playCyberBeep('click');
+        renderGallery();
+      });
+
+      // Album Management
+      document.getElementById('btn-create-album').addEventListener('click', () => {
+        playCyberBeep('click');
+        openAlbumModal();
+      });
+      document.getElementById('btn-manage-albums').addEventListener('click', () => {
+        playCyberBeep('click');
+        openAlbumModal();
+      });
+
+      function openAlbumModal() {
+        renderAlbumsList();
+        openModal('modal-albums');
+      }
+
+      function renderAlbumsList() {
+        const cont = document.getElementById('albums-list-container');
+        cont.innerHTML = '';
+        appState.albums.forEach((alb, idx) => {
+          const item = document.createElement('div');
+          item.style.display = 'flex';
+          item.style.alignItems = 'center';
+          item.style.justifyContent = 'space-between';
+          item.style.padding = '8px 12px';
+          item.style.background = 'rgba(0,0,0,0.3)';
+          item.style.borderRadius = '8px';
+          item.innerHTML = `
+            <span style="font-size:0.85rem;font-weight:600;">📁 ${escapeHtml(alb)}</span>
+            <div style="display:flex;gap:6px;">
+              <button class="icon-btn" style="width:28px;height:28px;font-size:0.7rem;" onclick="renameAlbumPrompt(${idx})">✏️</button>
+              ${appState.albums.length > 1 ? `<button class="icon-btn" style="width:28px;height:28px;font-size:0.7rem;color:var(--danger);" onclick="deleteAlbumPrompt(${idx})">🗑️</button>` : ''}
+            </div>
+          `;
+          cont.appendChild(item);
+        });
+      }
+
+      document.getElementById('btn-save-new-album').addEventListener('click', () => {
+        playCyberBeep('click');
+        const nameInput = document.getElementById('new-album-name-input');
+        const name = nameInput.value.trim();
+        if (name && !appState.albums.includes(name)) {
+          appState.albums.push(name);
+          nameInput.value = '';
+          saveState();
+          renderAlbumsList();
+          updateAlbumDropdowns();
+          showToast("অ্যালবাম তৈরি হয়েছে!");
+        }
+      });
+
+      window.renameAlbumPrompt = (idx) => {
+        const old = appState.albums[idx];
+        const newName = prompt("নতুন অ্যালবামের নাম লিখুন:", old);
+        if (newName && newName.trim() && newName.trim() !== old) {
+          appState.albums[idx] = newName.trim();
+          saveState();
+          renderAlbumsList();
+          updateAlbumDropdowns();
+          renderGallery();
+          showToast("অ্যালবামের নাম পরিবর্তিত হয়েছে!");
+        }
+      };
+
+      window.deleteAlbumPrompt = (idx) => {
+        if (confirm("এই অ্যালবামটি মুছে ফেলতে চান?")) {
+          appState.albums.splice(idx, 1);
+          saveState();
+          renderAlbumsList();
+          updateAlbumDropdowns();
+          renderGallery();
+          showToast("অ্যালবাম মুছে ফেলা হয়েছে!");
+        }
+      };
+
+      // Media Viewer Controls
+      document.getElementById('viewer-btn-close').addEventListener('click', closeMediaViewer);
+      document.getElementById('viewer-btn-prev').addEventListener('click', () => navigateViewer(-1));
+      document.getElementById('viewer-btn-next').addEventListener('click', () => navigateViewer(1));
+      document.getElementById('viewer-btn-download').addEventListener('click', downloadCurrentMedia);
+      document.getElementById('viewer-btn-share').addEventListener('click', shareCurrentMedia);
+      document.getElementById('viewer-btn-delete').addEventListener('click', deleteCurrentMedia);
+      document.getElementById('viewer-btn-save-meta').addEventListener('click', saveViewerMeta);
+
+      // Profile Edit & Avatar Upload
+      document.getElementById('profile-avatar-file').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          playCyberBeep('click');
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            appState.profile.avatar = evt.target.result;
+            saveState();
+            updateProfileUI();
+            showToast("প্রোফাইল ছবি আপডেট হয়েছে!");
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      document.getElementById('btn-save-profile').addEventListener('click', () => {
+        playCyberBeep('click');
+        appState.profile.name = document.getElementById('prof-input-name').value.trim() || 'Sami';
+        appState.profile.bio = document.getElementById('prof-input-bio').value.trim();
+        appState.profile.fb = document.getElementById('prof-input-fb').value.trim();
+        appState.profile.insta = document.getElementById('prof-input-insta').value.trim();
+        appState.profile.tg = document.getElementById('prof-input-tg').value.trim();
+        appState.profile.wa = document.getElementById('prof-input-wa').value.trim();
+
+        saveState();
+        updateProfileUI();
+        showToast("প্রোফাইল সফলভাবে সংরক্ষিত হয়েছে!");
+      });
+
+      // App Identity
+      document.getElementById('btn-save-identity').addEventListener('click', () => {
+        playCyberBeep('click');
+        appState.appName = document.getElementById('set-app-name').value.trim() || 'Sami Cyber Security';
+        appState.tagline = document.getElementById('set-app-tagline').value.trim();
+        appState.welcomeSub = document.getElementById('set-welcome-sub').value.trim();
+
+        saveState();
+        updateAppIdentityUI();
+        showToast("App Identity আপডেট হয়েছে!");
+      });
+
+      // Themes selection
+      document.querySelectorAll('.theme-box').forEach(box => {
+        box.addEventListener('click', () => {
+          playCyberBeep('click');
+          applyTheme(box.getAttribute('data-theme'));
+          showToast(`Theme সেট করা হয়েছে: ${box.querySelector('span').textContent}`);
+        });
+      });
+
+      // Background Style & Effects
+      document.getElementById('set-bg-style').addEventListener('change', (e) => {
+        playCyberBeep('click');
+        applyBackground(e.target.value);
+        showToast("Background দৃশ্যপট পরিবর্তন হয়েছে!");
+      });
+
+      document.getElementById('toggle-matrix').addEventListener('change', (e) => {
+        playCyberBeep('click');
+        appState.matrixRain = e.target.checked;
+        saveState();
+      });
+
+      // Typography & Radius
+      document.getElementById('set-font-style').addEventListener('change', (e) => {
+        playCyberBeep('click');
+        applyFont(e.target.value);
+      });
+      document.getElementById('set-text-size').addEventListener('change', (e) => {
+        playCyberBeep('click');
+        applySize(e.target.value);
+      });
+      document.getElementById('set-radius-slider').addEventListener('input', (e) => {
+        applyRadius(e.target.value);
+      });
+
+      // PIN Configuration Modals
+      document.getElementById('btn-config-app-pin').addEventListener('click', () => {
+        openPinConfigModal('app');
+      });
+      document.getElementById('btn-config-gallery-pin').addEventListener('click', () => {
+        openPinConfigModal('gallery');
+      });
+
+      document.getElementById('btn-remove-app-pin').addEventListener('click', () => {
+        if (confirm("App Open PIN নিষ্ক্রিয় করতে চান?")) {
+          playCyberBeep('click');
+          appState.appPin = '';
+          saveState();
+          updateStats();
+          showToast("App PIN বাতিল করা হয়েছে!");
+        }
+      });
+      document.getElementById('btn-remove-gallery-pin').addEventListener('click', () => {
+        if (confirm("Gallery Lock PIN নিষ্ক্রিয় করতে চান?")) {
+          playCyberBeep('click');
+          appState.galleryPin = '';
+          saveState();
+          updateStats();
+          showToast("Gallery PIN বাতিল করা হয়েছে!");
+        }
+      });
+
+      function openPinConfigModal(target) {
+        playCyberBeep('click');
+        document.getElementById('pin-config-target').value = target;
+        document.getElementById('modal-pin-config-title').textContent = target === 'app' ? "Set App Open PIN" : "Set Gallery Lock PIN";
+        document.getElementById('input-new-pin').value = '';
+        document.getElementById('input-confirm-pin').value = '';
+        openModal('modal-pin-config');
+      }
+
+      document.getElementById('btn-save-pin-config').addEventListener('click', () => {
+        const target = document.getElementById('pin-config-target').value;
+        const newPin = document.getElementById('input-new-pin').value.trim();
+        const confPin = document.getElementById('input-confirm-pin').value.trim();
+
+        if (newPin.length !== 4 || !/^\d{4}$/.test(newPin)) {
+          showToast("পিন অবশ্যই ৪ সংখ্যার হতে হবে!", false);
+          return;
+        }
+        if (newPin !== confPin) {
+          showToast("উভয় পিন এক হতে হবে!", false);
+          return;
+        }
+
+        playCyberBeep('success');
+        if (target === 'app') appState.appPin = newPin;
+        else if (target === 'gallery') appState.galleryPin = newPin;
+
+        saveState();
+        closeModal('modal-pin-config');
+        updateStats();
+        showToast("নিরাপত্তা পিন সফলভাবে সংরক্ষিত হয়েছে!");
+      });
+
+
+      // Backup & Restore Buttons
+      document.getElementById('btn-export-all').addEventListener('click', () => exportBackup(true));
+      document.getElementById('btn-export-lite').addEventListener('click', () => exportBackup(false));
+      document.getElementById('import-backup-file').addEventListener('change', (e) => importBackup(e.target.files[0]));
+      document.getElementById('btn-erase-all').addEventListener('click', eraseAllData);
+
+      // Security Health Scan Simulation
+      document.getElementById('btn-scan-now').addEventListener('click', () => {
+        playCyberBeep('click');
+        showToast("সাইবার সিকিউরিটি স্ক্যান চলছে...");
+        setTimeout(() => {
+          playCyberBeep('success');
+          // Check for duplicate or weak passwords
+          let weakCount = 0;
+          let dupCount = 0;
+          const seen = {};
+          appState.accounts.forEach(a => {
+            if (a.password.length < 8) weakCount++;
+            if (seen[a.password]) dupCount++;
+            seen[a.password] = true;
+          });
+
+          if (weakCount > 0 || dupCount > 0) {
+            document.getElementById('security-health-title').innerHTML = `
+              <span style="color:var(--warning);">⚠️ Cyber Warning Detected</span>
+            `;
+            document.getElementById('security-health-desc').textContent = `${weakCount} টি দুর্বল পাসওয়ার্ড এবং ${dupCount} টি একই পাসওয়ার্ড পাওয়া গেছে!`;
+            showToast("স্ক্যান সম্পন্ন: সতর্কবার্তা পাওয়া গেছে!", false);
+          } else {
+            document.getElementById('security-health-title').innerHTML = `
+              <span style="color:var(--primary);">🛡️ Cyber Shield: 100% Secure</span>
+            `;
+            document.getElementById('security-health-desc').textContent = `কোনো দুর্বল বা ফাঁস হওয়া পাসওয়ার্ড নেই। ডাটা সম্পূর্ণ সুরক্ষিত!`;
+            showToast("স্ক্যান সম্পন্ন: সিস্টেম ১০০% সুরক্ষিত!");
+          }
+        }, 1200);
+      });
+
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "Sami Cyber Security",
+  "description": "Professional Personal Cyber Security & Private Data Management",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
